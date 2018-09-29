@@ -21,6 +21,7 @@ import Data.Binary.Get
 import Data.List
 import Data.Time
 import Data.ByteString.Lazy (ByteString)
+import Debug.Trace (traceShowId)
 import qualified Data.ByteString.Lazy as B
 import qualified Data.ByteString.Lazy.Char8 as C
 import Data.Map (Map)
@@ -224,7 +225,7 @@ putTerm t = putTerm . compose $ t
 getTerm :: Get Term
 getTerm = do
   tag <- get8u
-  case tag of
+  case (traceShowId tag) of
     97  -> IntTerm <$> get8u
     98  -> IntTerm <$> get32s
     99  -> getL 31 >>= return . FloatTerm . read . C.unpack
